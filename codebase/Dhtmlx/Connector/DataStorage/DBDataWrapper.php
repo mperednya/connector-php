@@ -51,7 +51,7 @@ abstract class DBDataWrapper extends DataWrapper {
     {
         $order = $source->get_order();
         if ($order) {
-            $table = $source->get_source();
+            $table = $source->get_source_name();
             $id = $this->config->id["db_name"];
             $idvalue = $action->get_new_id();
 
@@ -90,7 +90,7 @@ abstract class DBDataWrapper extends DataWrapper {
 
 
         $name = $source->get_order();
-        $table = $source->get_source();
+        $table = $source->get_source_name();
         $idkey = $this->config->id["db_name"];
 
         $source = $this->queryOne("select $relation_select $name as dhx_index from $table where $idkey = '$id1'");
@@ -105,7 +105,7 @@ abstract class DBDataWrapper extends DataWrapper {
             $target_index = $target["dhx_index"];
             if (!$target_index)
                 $target_index = 0;
-            if ($dropnext)
+            if (isset($dropnext) && $dropnext)
                 $target_index += 1;
             $this->query("update $table set $name = $name + 1 where $relation_sql $name >= $target_index");
         } else {

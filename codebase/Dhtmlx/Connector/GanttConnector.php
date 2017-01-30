@@ -87,7 +87,7 @@ class GanttConnector extends Connector {
         $value  = $action->get_id();
         $parent = $action->get_value("parent");
 
-        $table = $this->request->get_source();
+        $table = $this->request->get_source_name();
         $id    = $this->config->id["db_name"];
 
         $this->sql->query("UPDATE $table SET parent = $parent WHERE $id = $value");
@@ -101,6 +101,7 @@ class GanttConnector extends Connector {
             if(method_exists($table, 'getModel') && method_exists($table->getModel(), 'getTable')){
                 $table->where('source', '=', $value)->orWhere('target', '=', $value)->delete();
             } else {
+				$table = $links->get_request()->get_source_name();
                 $this->sql->query("DELETE FROM $table WHERE source = $value");
                 $this->sql->query("DELETE FROM $table WHERE target = $value");
             }

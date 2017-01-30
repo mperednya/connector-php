@@ -119,13 +119,23 @@ class DataRequestConfig {
     public function get_fieldset(){
         return $this->fieldset;
     }
-    /*! returns name of source table
+    /*! returns source table
         @return
-            name of source table
+            source table
     */
     public function get_source(){
         return $this->source;
     }
+
+	/*! returns name of source table
+		@return
+			name of source table
+	*/
+    public function get_source_name(){
+		$source = $this->get_source();
+		if(is_string($source)) return $source;
+		return method_exists($source, 'getTable') ? $source->getTable(): $source;
+	}
     /*! returns set of sorting rules
         @return
             set of sorting rules
